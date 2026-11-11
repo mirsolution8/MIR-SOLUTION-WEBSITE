@@ -309,6 +309,7 @@ function Brand({ compact = false }: { compact?: boolean }) {
 function App({ page = "home" }: { page?: PageName }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [currentAd, setCurrentAd] = useState(0)
+  const [isAdTransitioning, setIsAdTransitioning] = useState(true)
   const [touchStart, setTouchStart] = useState<number | null>(null)
 
   const [productSearch, setProductSearch] = useState("")
@@ -319,14 +320,35 @@ function App({ page = "home" }: { page?: PageName }) {
   const navClassName = ({ isActive }: { isActive: boolean }) =>
     isActive ? "is-active" : undefined
 
-  const showPreviousAd = () =>
+  const showPreviousAd = () => {
+    setIsAdTransitioning(true)
     setCurrentAd((current) =>
-      current === 0 ? promoSlides.length - 1 : current - 1,
-    )
+    current === 0 || current === promoSlides.length
+      ? promoSlides.length - 1
+      : current - 1,
+  )
+}
 
-  const showNextAd = () =>
-    setCurrentAd((current) => (current + 1) % promoSlides.length)
+   const showNextAd = () => {
+  setIsAdTransitioning(true)
+  setCurrentAd((current) =>
+    Math.min(current + 1, promoSlides.length),
+      )
+    }
 
+      const handleAdTransitionEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
+      if (
+        event.target !== event.currentTarget ||
+        event.propertyName !== "transform"
+      ) {
+        return
+      }
+
+      if (currentAd === promoSlides.length) {
+        setIsAdTransitioning(false)
+        setCurrentAd(0)
+      }
+    }
   const finishSwipe = (touchEnd: number) => {
     if (touchStart === null) return
 
@@ -345,15 +367,25 @@ function App({ page = "home" }: { page?: PageName }) {
     closeMenu()
   }, [page])
 
-  useEffect(() => {
-    const timer = window.setInterval(() => {
-      setCurrentAd((current) =>
-        (current + 1) % promoSlides.length,
-      )
-    }, 5000)
+ useEffect(() => {
+  const timer = window.setInterval(() => {
+    setCurrentAd((current) =>
+      Math.min(current + 1, promoSlides.length),
+    )
+  }, 5000)
 
-    return () => window.clearInterval(timer)
-  }, [])
+  return () => window.clearInterval(timer)
+}, [])
+
+    useEffect(() => {
+      if (!isAdTransitioning) {
+        const timer = window.setTimeout(() => {
+          setIsAdTransitioning(true)
+        }, 50)
+
+        return () => window.clearTimeout(timer)
+      }
+    }, [isAdTransitioning])
 
   return (
     <div className="site-shell">
@@ -510,26 +542,30 @@ function App({ page = "home" }: { page?: PageName }) {
       onTouchEnd={(event) =>
         finishSwipe(event.changedTouches[0].clientX)
       }
-    >
+      >
       <div
         className="ad-carousel-track"
-        style={{ transform: `translateX(-${currentAd * 100}%)` }}
+       style={{
+      transform: `translateX(-${currentAd * 100}%)`,
+      transition: isAdTransitioning ? "transform 600ms ease-in-out" : "none",
+    }}
+        onTransitionEnd={handleAdTransitionEnd}
         aria-live="polite"
       >
-        {promoSlides.map((slide, index) => (
-          <article
-            className="ad-slide"
-            aria-hidden={currentAd !== index}
-            key={slide.image}
-          >
-            <img
-              className="ad-slide-image"
-              src={slide.image}
-              alt={slide.alt}
-              draggable="false"
-            />
-          </article>
-        ))}
+       {[...promoSlides, promoSlides[0]].map((slide, index) => (
+    <article
+    className="ad-slide"
+    aria-hidden={currentAd !== index}
+    key={index === promoSlides.length ? "first-slide-clone" : slide.image}
+   >
+    <img
+      className="ad-slide-image"
+      src={slide.image}
+      alt={slide.alt}
+      draggable="false"
+     />
+     </article>
+      ))} 
       </div>
 
       <button
@@ -555,16 +591,27 @@ function App({ page = "home" }: { page?: PageName }) {
       </button>
 
       <div className="ad-carousel-dots" aria-label="Pilih iklan">
-        {promoSlides.map((slide, index) => (
-          <button
-            className={currentAd === index ? "is-active" : ""}
-            type="button"
-            aria-label={`Tampilkan iklan ${index + 1}`}
-            aria-current={currentAd === index ? "true" : undefined}
-            onClick={() => setCurrentAd(index)}
-            key={slide.image}
-          />
-        ))}
+      {promoSlides.map((slide, index) => (
+        <button
+          className={
+            (currentAd === promoSlides.length ? 0 : currentAd) === index
+              ? "is-active"
+              : ""
+          }
+          type="button"
+          aria-label={`Tampilkan iklan ${index + 1}`}
+          aria-current={
+            (currentAd === promoSlides.length ? 0 : currentAd) === index
+              ? "true"
+              : undefined
+          }
+          onClick={() => {
+            setIsAdTransitioning(true)
+            setCurrentAd(index)
+          }}
+          key={slide.image}
+        />
+      ))}
       </div>
     </div>
   </div>
