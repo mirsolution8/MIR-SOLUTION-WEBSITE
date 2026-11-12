@@ -1,7 +1,7 @@
 {
   "description": "A web application for exploring and using the tools and content available on the site.",
   "robots": {
-    "index": false
+    "index": true
   },
   "accessibility": {
     "addBypassLinks": false,

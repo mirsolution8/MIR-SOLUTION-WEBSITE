@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mir-solution-website.vercel.app/sitemap.xml
