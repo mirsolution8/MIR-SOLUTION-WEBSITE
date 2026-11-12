@@ -157,7 +157,7 @@ function figmaSiteConfiguration(config: FigmaSiteConfiguration): Plugin {
         if (config.robots?.index === false) {
           tags.push({
             tag: "meta",
-            attrs: { name: "robots", content: "noindex, nofollow" },
+            attrs: { name: "robots", content: "index, follow" },
             injectTo: "head",
           })
         }
