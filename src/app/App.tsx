@@ -1270,7 +1270,74 @@ function App({ page = "home" }: { page?: PageName }) {
     <p>© {new Date().getFullYear()} MIR SOLUTION. All rights reserved.</p>
     <p>Built on Trust. Driven by Growth.</p>
   </div>
+
 </footer>
+
+{/* FLOATING SOCIAL MEDIA BUTTONS */}
+<div className="floating-socials">
+  <a
+    href="https://www.instagram.com/mirsolution_/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="floating-social instagram"
+    aria-label="Instagram MIR SOLUTION"
+    title="Instagram"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2"/>
+      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2"/>
+      <circle cx="17.5" cy="6.5" r="1.2" fill="currentColor"/>
+    </svg>
+  </a>
+
+  <a
+    href="https://www.facebook.com/share/1FGaYPo1zv/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="floating-social facebook"
+    aria-label="Facebook MIR SOLUTION"
+    title="Facebook"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M13.5 21v-8h2.7l.4-3h-3.1V8.1c0-.9.3-1.5 1.6-1.5h1.6V3.9c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V10H7.3v3H10v8h3.5Z"/>
+    </svg>
+  </a>
+
+  <a
+    href="https://www.tiktok.com/@mirsolution_"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="floating-social tiktok"
+    aria-label="TikTok MIR SOLUTION"
+    title="TikTok"
+  >
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="currentColor" d="M19.6 7.1a6.4 6.4 0 0 1-3.9-1.3v8.1a6 6 0 1 1-5.2-5.9v3.2a2.9 2.9 0 1 0 2 2.7V2.5h3.2c.2 2 1.8 3.7 3.9 3.9v.7Z"/>
+    </svg>
+  </a>
+</div>
+
+      {/* FLOATING WHATSAPP BUTTON */}
+      <a
+        href="https://wa.me/6281275298975?text=Halo%20MIR%20SOLUTION%2C%20saya%20ingin%20bertanya%20tentang%20layanan."
+        className="floating-whatsapp"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Hubungi MIR SOLUTION melalui WhatsApp"
+        title="Konsultasi via WhatsApp"
+      >
+        <svg
+          viewBox="0 0 32 32"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path
+            fill="currentColor"
+            d="M16 3C8.83 3 3 8.83 3 16c0 2.3.61 4.56 1.77 6.54L3 29l6.63-1.74A12.94 12.94 0 0 0 16 29c7.17 0 13-5.83 13-13S23.17 3 16 3Zm0 23.7c-2.04 0-4.04-.55-5.78-1.6l-.41-.24-3.94 1.03 1.05-3.84-.27-.42A10.64 10.64 0 1 1 16 26.7Zm5.85-7.98c-.32-.16-1.9-.94-2.2-1.05-.3-.1-.51-.16-.73.16-.22.32-.84 1.05-1.03 1.27-.19.21-.38.24-.7.08-.32-.16-1.36-.5-2.59-1.6-.96-.85-1.61-1.9-1.8-2.22-.19-.32-.02-.49.14-.65.14-.14.32-.38.48-.56.16-.19.21-.32.32-.54.1-.21.05-.4-.03-.56-.08-.16-.73-1.76-1-2.41-.26-.63-.53-.54-.73-.55h-.62c-.22 0-.57.08-.87.4-.3.32-1.14 1.11-1.14 2.7 0 1.59 1.16 3.13 1.32 3.34.16.22 2.29 3.5 5.55 4.9.78.34 1.38.55 1.85.7.78.25 1.49.21 2.05.13.63-.1 1.9-.78 2.16-1.54.27-.76.27-1.4.19-1.54-.08-.13-.3-.21-.62-.37Z"
+          />
+        </svg>
+      </a>
+
     </div>
   )
 }
